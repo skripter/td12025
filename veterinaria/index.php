@@ -11,24 +11,11 @@
 	</header>
 	
 	<nav>
-	<a href='#'>Inicio</a> |
-	<a href='#'>Productos</a> | 
-	<a href='#'>Noticias</a> | 
-	<a href='#'>Clientes</a> | 
-	<a href='#'>Mascotas</a> | 
-	<a href='#'>Ayuda</a>
+	<?php include('menu-superior.php'); ?>
 	</nav>
 	
 	<section>
-	<a href='./mascotas-agregar.php'><img src='./images/add.png'>Nueva mascota</a>
-	<a href='#'><img src='./images/add.png'>Nuevo cliente</a>
-	<a href='#'><img src='./images/add.png'>Nuevo vet.</a>
-	<a href='#'>Stock Prod.</a>
-	<a href='#'>Estadistica Prod.</a>
-	<a href='#'>Estadistica atencion</a>
-	<a href='./especies-listar.php'>Listado de especies</a>
-	<a href='./razas-listar.php'>Listado de razas</a>
-	<a href='./mascotas-listar.php'>Listado de mascotas</a>
+	<?php include('menu-lateral.php'); ?>
 	</section>
 	
 <article>

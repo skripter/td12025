@@ -2,7 +2,15 @@
 //ini_set('display_errors', '1');
 //error_reporting(E_ALL);
 require('./db.php');
-unset($msgerror);
+$msgok = "";
+$msgerror = "";
+
+if(!$_GET){
+	header("Location: ./mascotas-listar.php");
+	exit("No hay datos");
+}
+
+$masid = $_GET['masid'];
 
 if($_POST){
 	extract($_POST,EXTR_OVERWRITE);
@@ -23,7 +31,22 @@ if(!isset($msgerror)){
 	$msgok = "Se guardó correctamente la mascota: ". $petname;
 }//if msgerror
 
-}//fin _POST
+}//fin POST
+
+if($_GET){
+	$masid = mysqli_real_escape_string($conn,$masid);
+	$sql = "SELECT * FROM mascotas WHERE masid='".$masid."'";
+	//echo $sql;
+	$resultado = mysqli_query($conn,$sql);
+	while($row = mysqli_fetch_array($resultado, MYSQLI_ASSOC)){
+		$masnombre = htmlentities($row['masnombre']);
+		$masespecie = $row['masespecie'];
+		$masdueño = $row['maspropietario'];
+		$masespecie = $row['masespecie'];
+		$masnacimiento = $row['masfechanac'];
+		$maspropietario = $row['maspropietario'];
+	}//fin while
+}//fin GET
 ?>
 <html>
 <head>
@@ -56,7 +79,7 @@ echo "<h4>$msgok</h4>";
 	
 	<tr>
 	<td>Nombre:</td>
-	<td><input type='text' name='petname' id='petname' value='<?php echo $petname; ?>' autofocus required></td>
+	<td><input type='text' name='petname' id='petname' value='<?php echo $masnombre; ?>' autofocus required></td>
 	</tr>
 	
 	<tr>
@@ -69,8 +92,10 @@ echo "<h4>$msgok</h4>";
 	//echo $sql;
 	$result = mysqli_query($conn, $sql);
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-	echo "<option value='".$row['espid']."'>";
-	echo $row['espid']." - ".$row['espnombre']."</option>\n";
+		$selected = "";
+		if($row['espid'] == $masespecie){ $selected = " selected";}
+		echo "<option value='".$row['espid']."'".$selected.">";
+		echo $row['espid']." - ".$row['espnombre']."</option>\n";
 }//fin while
 	?>
 	</select>
@@ -108,14 +133,14 @@ echo "<h4>$msgok</h4>";
 	
 	<tr>
 	<td>Fecha Nac.:</td>
-	<td><input type='date' name='petdob' id='petdob' max='<?php echo date('Y-m-d'); ?>' required></td>
+	<td><input type='date' name='petdob' id='petdob' value='<?php echo $masnacimiento; ?>' required></td>
 	</tr>
 	
 	<tr>
 	<td>Dueño:</td>
 	<td>
-	<input type='text' name='petowner' id='petowner' readonly required>
-	<input type='text' name='petownername' id='petownername' required>
+	<input type='text' name='petowner' id='petowner' readonly>
+	<input type='text' name='petownername' id='petownername' value='<?php echo $maspropietario; ?>'required>
 	</td>
 	</tr>
 	

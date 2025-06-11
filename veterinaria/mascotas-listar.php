@@ -11,23 +11,11 @@
 	</header>
 	
 	<nav>
-	<a href='#'>Inicio</a> |
-	<a href='#'>Productos</a> | 
-	<a href='#'>Noticias</a> | 
-	<a href='#'>Clientes</a> | 
-	<a href='#'>Mascotas</a> | 
-	<a href='#'>Ayuda</a>
+	<?php include('menu-superior.php'); ?>
 	</nav>
 	
 	<section>
-	<a href='./mascotas-agregar.php'><img src='./images/add.png'>Nueva mascota</a>
-	<a href='#'><img src='./images/add.png'>Nuevo cliente</a>
-	<a href='#'><img src='./images/add.png'>Nuevo vet.</a>
-	<a href='#'>Stock Prod.</a>
-	<a href='#'>Estadistica Prod.</a>
-	<a href='#'>Estadistica atencion</a>
-	<a href='./especies-listar.php'>Listado de especies</a>
-	<a href='./razas-listar.php'>Listado de razas</a>
+	<?php include('menu-lateral.php'); ?>
 	</section>
 	
 <article>
@@ -45,9 +33,9 @@
 	<th></th>
 </tr>
 <?php
-ini_set('display_errors', '1');
-error_reporting(E_ALL);
-$conn = mysqli_connect("127.0.0.1", "td12025", "Td1.2025*", "td12025") or exit("Error al conectar a la DB.");
+//ini_set('display_errors', '1');
+//error_reporting(E_ALL);
+require('./db.php');
 $sql = "SELECT * FROM mascotas ";
 $sql .= "INNER JOIN especies ON mascotas.masespecie = especies.espid ";
 $sql .= "INNER JOIN razas ON mascotas.masraza = razas.razid ";
