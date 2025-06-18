@@ -41,8 +41,9 @@ if($_GET){
 	while($row = mysqli_fetch_array($resultado, MYSQLI_ASSOC)){
 		$masnombre = htmlentities($row['masnombre']);
 		$masespecie = $row['masespecie'];
+		$masraza = $row['masraza'];
+		$massexo = $row['massexo'];
 		$masdueño = $row['maspropietario'];
-		$masespecie = $row['masespecie'];
 		$masnacimiento = $row['masfechanac'];
 		$maspropietario = $row['maspropietario'];
 	}//fin while
@@ -112,8 +113,10 @@ echo "<h4>$msgok</h4>";
 	//echo $sql;
 	$result = mysqli_query($conn, $sql);
 	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-	echo "<option value='".$row['razid']."'>";
-	echo $row['razid']." - ".$row['raznombre']."</option>\n";
+		$selected = "";
+		if($row['razid'] == $masraza){ $selected = " selected";}
+		echo "<option value='".$row['razid']."'".$selected.">";
+		echo $row['razid']." - ".$row['raznombre']."</option>\n";
 }//fin while
 	?>
 	</select>
@@ -125,8 +128,8 @@ echo "<h4>$msgok</h4>";
 	<td>
 	<select name='petsex' id='petsex'>
 	<option value="">Seleccione sexo</option>
-	<option value="H">Hembra</option>
-	<option value="M">Macho</option>
+	<option value="H" <?php if($massexo=="H"){ echo " selected";} ?>>Hembra</option>
+	<option value="M" <?php if($massexo=="M"){ echo " selected";} ?>>Macho</option>
 	</select>
 	</td>
 	</tr>
