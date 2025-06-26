@@ -31,6 +31,7 @@
 	<th>ID</th>
 	<th>Raza</th>
 	<th>Especie</th>
+	<th></th>
 </tr>
 <?php
 ini_set('display_errors', '1');
@@ -51,6 +52,7 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 	echo "<td>".$row['razid']."</td>\n";
 	echo "<td>".$row['raznombre']."</td>\n";
 	echo "<td>".$row['razespecie']." - ".$row['espnombre']."</td>\n";
+	echo "<td><a href='./razas-editar.php?razid=".$row['razid']."'>Editar</td>\n";
 	echo "</tr>\n";
 }//fin while
 ?>

@@ -1,21 +1,34 @@
 <?php
 //ini_set('display_errors', '1');
 //error_reporting(E_ALL);
+session_start();
 require('./db.php');
+unset($msgok);
 unset($msgerror);
 
 if($_POST){
 	extract($_POST,EXTR_OVERWRITE);
 	//var_dump($_POST);
+	$espnombre = ucfirst($espnombre);
+	if(strlen($espnombre) < 2){
+		$msgerror = "Debe ingresar un nombre de especie.";
+	}
+	$sqlbusqueda = "SELECT * FROM especies WHERE espnombre='".$espnombre."'";
+	//echo $sqlbusqueda;//exit();
+	$resultbusqueda = mysqli_query($conn, $sqlbusqueda);
+	if(mysqli_num_rows($resultbusqueda) > 0){
+		$msgerror = "Nombre de especie ya ingresado.";
+	}
 	
 if(!isset($msgerror)){
 	$espnombre = mysqli_real_escape_string($conn, $espnombre);
 	//guardo en la DB
-	$sql = "INSERT INTO mascotas (masnombre, masespecie, masraza, massexo, masfechanac, maspropietario) ";
-	$sql .= "VALUES ('".$petname."', '".$petspecie."', '".$petrace."', '".$petsex."','".$petdob."', '".$petownername."')";
-	echo $sql;exit();
+	$sql = "INSERT INTO especies (espnombre) VALUES ('".$espnombre."')";
+	//echo $sql;//exit();
 	$result = mysqli_query($conn, $sql);
-	$msgok = "Se guardó correctamente la especie: ". $espnombre;
+	$_SESSION['msgok'] = "Se guardó correctamente la especie: ". $espnombre;
+	header("Location: ./mascotas-listar.php");
+	exit();
 }//if msgerror
 
 }//fin _POST
@@ -61,6 +74,30 @@ echo "<h4>$msgok</h4>";
 	
 	</table>
 </form>	
+<table class='tablita'>
+<caption>Listado de especies ya ingresadas</caption>
+<tr>
+	<th>ID</th>
+	<th>Especie</th>
+</tr>
+<?php
+$sql = "SELECT * FROM especies";
+//echo $sql;
+$result = mysqli_query($conn, $sql);
+if(mysqli_num_rows($result) < 1 ){
+	echo "<tr>";
+	echo "<td colspan='2'>No se encontraron datos.</td>";
+	echo "</tr>";
+}//fin if
+
+while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+	echo "<tr>\n";
+	echo "<td>".$row['espid']."</td>\n";
+	echo "<td>".$row['espnombre']."</td>\n";
+	echo "</tr>\n";
+}//fin while
+?>
+</table>
 </article>
 	
 <footer>

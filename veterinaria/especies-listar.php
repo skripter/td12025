@@ -1,3 +1,9 @@
+<?php
+//ini_set('display_errors', '1');
+//error_reporting(E_ALL);
+session_start();
+require('./db.php');
+?>
 <html>
 <head>
 <title>Veterinaria</title>
@@ -24,17 +30,20 @@
 	</section>
 	
 <article>
-
+<?php
+echo "<h4>".$_SESSION['msgerror']."</h4>";
+echo "<h4>".$_SESSION['msgok']."</h4>";
+unset($_SESSION['msgerror']);
+unset($_SESSION['msgok']);
+?>
 <table class='tablita'>
 <caption>Listado de especies</caption>
 <tr>
 	<th>ID</th>
 	<th>Especie</th>
+	<th></th>
 </tr>
 <?php
-//ini_set('display_errors', '1');
-//error_reporting(E_ALL);
-$conn = mysqli_connect("127.0.0.1", "td12025", "Td1.2025*", "td12025") or exit("Error al conectar a la DB.");
 $sql = "SELECT * FROM especies";
 //echo $sql;
 $result = mysqli_query($conn, $sql);
@@ -48,6 +57,7 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 	echo "<tr>\n";
 	echo "<td>".$row['espid']."</td>\n";
 	echo "<td>".$row['espnombre']."</td>\n";
+	echo "<td><a href='./especies-editar.php?espid=".$row['espid']."'>Editar</td>\n";
 	echo "</tr>\n";
 }//fin while
 ?>
