@@ -93,5 +93,12 @@ footer{
 	border: 1px solid #000000;
 	border-bottom: 0;
 	padding: 8px;
-	background: #f8f887;
+	background: #F8F887;
+}
+#visor{
+	margin: 0 auto;
+	padding: 5px;
+	border-radius: 3px;
+	border: 1px solid #005500;
+	background-color: #99ee99;
 }

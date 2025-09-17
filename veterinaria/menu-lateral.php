@@ -7,6 +7,7 @@ echo date('d-m-Y h:i:s');
 
 <a href='./especies-listar.php'>Listado de especies</a>
 <a href='./especies-agregar.php'><img src='./images/add.png'>Nueva especie</a>
+<a href='./mascotas-especies-jquery.php'><img src='./images/add.png'>Listado de razas por especie</a>
 
 <a href='./razas-listar.php'>Listado de razas</a>
 <a href='./razas-agregar.php'><img src='./images/add.png'>Nueva raza</a>
