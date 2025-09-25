@@ -16,8 +16,9 @@ $(function(){
     $("#petspecie").on("change", function(){
         var espid = $("#petspecie option:selected").val();
         $("#visor").load("mascotas-especies-jquery-mostrar.php?espid="+espid);
+        $("#petrace").load("mascotas-especies-jquery-combo.php?espid="+espid);
 
-    });//Fin petspeci
+    });//Fin petspecie
 
 
 });//Fin $
@@ -63,23 +64,14 @@ echo "<h4>$msgok</h4>";
 	</td>
 	</tr>
 	
-	<!--tr>
+	<tr>
 	<td>Raza:</td>
 	<td>
 	<select name='petrace' id='petrace'>
-	<option value="">Seleccione raza</option>
-	<?php
-	$sql = "SELECT * FROM razas ORDER BY razespecie";
-	//echo $sql;
-	$result = mysqli_query($conn, $sql);
-	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-	echo "<option value='".$row['razid']."'>";
-	echo $row['razid']." - ".$row['raznombre']."</option>\n";
-}//fin while
-	?>
+	<option value="">Seleccione especie primero</option>
 	</select>
 	</td>
-	</tr-->
+	</tr>
 	</table>
 <div id="visor">&nbsp;</div>	
 </form>	
