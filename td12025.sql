@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 24-09-2025 a las 22:17:11
+-- Tiempo de generación: 29-10-2025 a las 20:29:52
 -- Versión del servidor: 10.11.3-MariaDB-1
 -- Versión de PHP: 8.2.7
 
@@ -79,6 +79,28 @@ INSERT INTO `especies` (`espid`, `espnombre`) VALUES
 (8, 'Bovinos'),
 (9, 'Ovinos'),
 (10, 'Camelídos');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `hoteles`
+--
+
+CREATE TABLE `hoteles` (
+  `hotid` int(11) NOT NULL,
+  `hotnombre` varchar(100) NOT NULL,
+  `hotdireccion` varchar(100) NOT NULL,
+  `hottelefono` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `hoteles`
+--
+
+INSERT INTO `hoteles` (`hotid`, `hotnombre`, `hotdireccion`, `hottelefono`) VALUES
+(1, 'Hotel Transylvania', 'Transilvania', '0303456'),
+(2, 'Altos del Arapey', 'Termas del Arapey', '6656'),
+(3, 'Brisas del Dayman', 'Termas del Dayman', '49849');
 
 -- --------------------------------------------------------
 
@@ -210,6 +232,29 @@ INSERT INTO `modelos` (`modid`, `modmarca`, `modnombre`, `modanio`, `modpotencia
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `personas`
+--
+
+CREATE TABLE `personas` (
+  `perid` int(11) NOT NULL,
+  `pernombre` varchar(100) NOT NULL,
+  `perapellido` varchar(100) NOT NULL,
+  `pernrodoc` int(8) NOT NULL,
+  `pertelefono` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `personas`
+--
+
+INSERT INTO `personas` (`perid`, `pernombre`, `perapellido`, `pernrodoc`, `pertelefono`) VALUES
+(1, 'Rodrigo', 'Barreda', 38073657, 92051774),
+(2, 'Andres', 'Ferreira', 1234, 4321),
+(3, 'Bryan', 'Simoes', 51456, 156154614);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `razas`
 --
 
@@ -237,6 +282,30 @@ INSERT INTO `razas` (`razid`, `raznombre`, `razespecie`) VALUES
 (11, 'Lagartija overa', 7),
 (12, 'Llama', 10);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `reservas`
+--
+
+CREATE TABLE `reservas` (
+  `resid` int(11) NOT NULL,
+  `resperid` int(11) NOT NULL,
+  `reshotid` int(11) NOT NULL,
+  `resfechaini` date NOT NULL,
+  `resfechafin` date NOT NULL,
+  `resestado` varchar(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `reservas`
+--
+
+INSERT INTO `reservas` (`resid`, `resperid`, `reshotid`, `resfechaini`, `resfechafin`, `resestado`) VALUES
+(1, 1, 3, '2025-10-23', '2025-10-26', 'N'),
+(2, 2, 2, '2025-10-22', '2025-10-24', 'N'),
+(3, 3, 1, '2025-10-22', '2025-10-31', 'C');
+
 --
 -- Índices para tablas volcadas
 --
@@ -252,6 +321,12 @@ ALTER TABLE `autores`
 --
 ALTER TABLE `especies`
   ADD PRIMARY KEY (`espid`);
+
+--
+-- Indices de la tabla `hoteles`
+--
+ALTER TABLE `hoteles`
+  ADD PRIMARY KEY (`hotid`);
 
 --
 -- Indices de la tabla `libros`
@@ -280,11 +355,25 @@ ALTER TABLE `modelos`
   ADD KEY `fk_marcas` (`modmarca`);
 
 --
+-- Indices de la tabla `personas`
+--
+ALTER TABLE `personas`
+  ADD PRIMARY KEY (`perid`);
+
+--
 -- Indices de la tabla `razas`
 --
 ALTER TABLE `razas`
   ADD PRIMARY KEY (`razid`),
   ADD KEY `fk_especie` (`razespecie`);
+
+--
+-- Indices de la tabla `reservas`
+--
+ALTER TABLE `reservas`
+  ADD PRIMARY KEY (`resid`),
+  ADD KEY `fk_persona` (`resperid`),
+  ADD KEY `fk_hotel` (`reshotid`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -301,6 +390,12 @@ ALTER TABLE `autores`
 --
 ALTER TABLE `especies`
   MODIFY `espid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `hoteles`
+--
+ALTER TABLE `hoteles`
+  MODIFY `hotid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `libros`
@@ -327,10 +422,22 @@ ALTER TABLE `modelos`
   MODIFY `modid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
+-- AUTO_INCREMENT de la tabla `personas`
+--
+ALTER TABLE `personas`
+  MODIFY `perid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT de la tabla `razas`
 --
 ALTER TABLE `razas`
   MODIFY `razid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT de la tabla `reservas`
+--
+ALTER TABLE `reservas`
+  MODIFY `resid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restricciones para tablas volcadas
@@ -353,6 +460,13 @@ ALTER TABLE `modelos`
 --
 ALTER TABLE `razas`
   ADD CONSTRAINT `fk_especie` FOREIGN KEY (`razespecie`) REFERENCES `especies` (`espid`) ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `reservas`
+--
+ALTER TABLE `reservas`
+  ADD CONSTRAINT `fk_hotel` FOREIGN KEY (`reshotid`) REFERENCES `hoteles` (`hotid`) ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_persona` FOREIGN KEY (`resperid`) REFERENCES `personas` (`perid`) ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
